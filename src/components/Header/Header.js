@@ -6,9 +6,15 @@ import logo from './logo.jpg';
 export default function Header() {
   return (
     <header className="container">
-      <img className="icon" src={logo} alt="logo"/>
-      <Search className=".search"/>
-       <Nav/>
+      <div>
+        <img className="icon" src={logo} alt="logo" />
+      </div>
+      <div>
+        <Search className="search" />
+      </div>
+      <div>
+        <Nav />
+      </div>
     </header>
   );
 }

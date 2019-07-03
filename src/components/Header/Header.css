@@ -1,21 +1,24 @@
 .container {
   display: flex;
-  justify-content: space-around;
- 
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
+.search {
+	justify-self: center;
+}
 .icon {
-  display: inline-block;
-  margin-left:10px;
-  width: 40px;
-  height: 30px;
+	margin-left: 10px;
+	width: 60px;
+  height: 50px;
+  margin-right:auto;
 }
 
 .icon:hover {
-  opacity: 0.3;
+	opacity: 0.3;
 }
 
-Nav {
-  margin-left: auto;
-  margin-right:15px;
+nav {
+	margin-left: auto;
+	margin-right: 15px;
 }
