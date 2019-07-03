@@ -7,7 +7,7 @@ export default function Header() {
   return (
     <header className="container">
       <img className="icon" src={logo} alt="logo"/>
-      <Search/>
+      <Search className=".search"/>
        <Nav/>
     </header>
   );
