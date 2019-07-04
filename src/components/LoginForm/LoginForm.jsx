@@ -2,6 +2,7 @@ import React from 'react';
 import './LoginForm.css';
 import NavLink from '../Link/NavLink.jsx';
 import Button from '../Button/index.jsx';
+import InputField from '../InputField/InputField.jsx';
 export default function LoginForm() {
 	return (
 		<React.Fragment>

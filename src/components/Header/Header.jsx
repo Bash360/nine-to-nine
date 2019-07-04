@@ -1,6 +1,7 @@
 import React from 'react';
 import './Header.css';
 import NavLink from '../Link/NavLink.jsx';
+import InputField from '../InputField/InputField.jsx';
 import logo from './logo.jpg';
 import Button from '../Button';
 
@@ -10,7 +11,7 @@ export default function Header() {
 			<img src={logo} className="icon" alt="logo" />
 			<form className="search">
 				<span>
-					<input id="search" type="text" placeholder="search for service" />
+					<InputField id="search" placeholder="search for services offered" name="search" className="inputField" />
 					<Button hoverTitle="Search" buttonLabel="search" buttonClass="outline-success" buttonWidth="100px" />
 				</span>
 			</form>

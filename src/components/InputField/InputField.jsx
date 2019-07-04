@@ -1,7 +1,9 @@
-import React from 'react'
-function InputField(props) { 
+import React from 'react';
+import './InputField.css';
+export default function InputField(props) { 
   return (
-    <label id={props.id}><label>
-    <input type={props.type} placeholder={props.placeholder}/>
+    <React.Fragment>
+      <input name={props.name} className={props.className} type={props.type} placeholder={props.placeholder} />
+        </React.Fragment>
   );
 }
