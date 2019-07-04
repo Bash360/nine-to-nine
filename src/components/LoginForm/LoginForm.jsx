@@ -5,7 +5,7 @@ import Button from '../Button/index.jsx';
 import InputField from '../InputField/InputField.jsx';
 export default function LoginForm() {
 	return (
-		<React.Fragment>
+		<div className="containerforlogin">
       <form className="containerLogin">
 				<h3>Log In</h3>
 				<label htmlFor="name">Email</label>
@@ -16,9 +16,9 @@ export default function LoginForm() {
         
         </form>
         <p className="noaccount">
-				Don't have an account? signup here <div style={{ borderRadius: "5px", width: "100px", margin: "auto", textAlign: "center", padding: "5px" }} className="primary outline-primary"><NavLink title="sign up" size="100px"  where="/signup" text="sign up"/></div>
+				Don't have an account? signup here <span style={{ borderRadius: "5px", width: "100px", margin: "auto", textAlign: "center", padding: "5px" }} className="primary outline-primary"><NavLink title="sign up" size="100px"  where="/signup" text="sign up"/></span>
         </p>
       
-		</React.Fragment>
+		</div>
 	);
 }

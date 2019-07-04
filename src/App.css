@@ -8,7 +8,7 @@
 }
 
 .primary {
-  background-color: darkblue;
+  background-color: #361B90;
   color: white;
 }
 
@@ -50,8 +50,8 @@
 }
 
 .outline-primary:hover {
-  background-color: blue;
-  color: white;
+  background-color: #34198E;
+  color: #fff;
   transition-duration: 0.5s;
 }
 
