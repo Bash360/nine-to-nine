@@ -5,18 +5,18 @@
   align-items: center;
   flex: 1;
   width: 400px;
-  height:700px;
+  height: 700px;
   margin: auto;
   margin-top: 20px;
   background-color: #EDF2E7;
   border-radius: 10px;
-  margin-bottom:10px;
+  margin-bottom: 10px;
 }
 
-h1 {
+.containerLogin h3 {
   text-align: center;
   margin-top: 10px;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }
 
 .containerLogin>* {

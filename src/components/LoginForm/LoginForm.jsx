@@ -7,11 +7,11 @@ export default function LoginForm() {
 	return (
 		<React.Fragment>
       <form className="containerLogin">
-				<h1>Log In</h1>
+				<h3>Log In</h3>
 				<label htmlFor="name">Email</label>
-				<input type="email" id="email" placeholder="enter email" required />
+				<InputField type="email" id="email" className="inputfield-invalid" placeholder="enter email"/>
 				<label hmtlfor="password">Password</label>
-				<input type="password" id="password" placeholder="enter password" required />
+				<InputField type="password" className="inputfield-invalid" id="password" placeholder="enter password"/>
 				<Button hoverTitle="sign in" buttonLabel="sign in" buttonClass="outline-success" buttonWidth="100px" />
         
         </form>
