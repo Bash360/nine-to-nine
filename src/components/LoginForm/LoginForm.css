@@ -1,3 +1,53 @@
-.container {
-  background-color: #ff0000;
+.containerLogin {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  flex: 1;
+  width: 400px;
+  height:700px;
+  margin: auto;
+  margin-top: 20px;
+  background-color: #EDF2E7;
+  border-radius: 10px;
+  margin-bottom:10px;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 50px;
+}
+
+.containerLogin>* {
+  width: 50%;
+  height: 30px;
+}
+
+.containerLogin input {
+  margin-bottom: 10px;
+}
+
+.containerLogin label {
+  text-align: left;
+}
+
+.containerLogin input:focus {
+  outline-color: #086723;
+  border: #fff solid 4px;
+}
+
+.containerLogin input:invalid {
+  outline-color: #ff0000;
+}
+
+p .signup {
+  width: 60px;
+  height: 20px;
+  margin-left: 5px;
+}
+
+.noaccount {
+  margin: auto;
+  margin-top: 10px;
 }

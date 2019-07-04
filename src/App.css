@@ -1,10 +1,61 @@
-.container{
+.container {
   display: flex;
   flex-direction: column;
   align-content: center;
-  justify-content: center;
-  margin:10px;
-  line-break: 2px;
+  margin: 10px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 1.5rem;
+}
+
+.primary {
+  background-color: darkblue;
+  color: white;
+}
+
+.danger {
+  background-color: red;
+  color: white;
+}
+
+.success {
+  background-color: green;
+  color: white;
+}
+
+.outline-primary {
+  background-color: white;
+  border: 1px solid darkblue;
+}
+
+.outline-danger {
+  background-color: white;
+  border: 1px solid darkred;
+}
+
+.outline-success {
+  background-color: white;
+  border: 1px solid darkgreen;
+}
+
+.outline-success:hover {
+  background-color: green;
+  color: white;
+  transition-duration: 0.5s;
+}
+
+.outline-danger:hover {
+  background-color: red;
+  color: white;
+  transition-duration: 0.5s;
+}
+
+.outline-primary:hover {
+  background-color: blue;
+  color: white;
+  transition-duration: 0.5s;
+}
+
+input {
+  width: 80%;
+  height: 50px;
 }

@@ -1,11 +1,15 @@
 import React from 'react';
-import Header from './components/Header/Header';
+import "./App.css";
+import Header from './components/Header/Header.jsx';
+import LoginForm from './components/LoginForm/LoginForm.jsx';
 
 function App() {
   return (
-    <React.Fragment>
-   <div><Header/></div>
-    </React.Fragment>
+    <div className="container">
+      <Header />
+      <LoginForm/>
+        
+    </div>
   );
 }
 

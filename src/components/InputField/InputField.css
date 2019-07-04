@@ -1,0 +1,17 @@
+.inputfield {
+  height: 50px;
+  width: 300px;
+  border-radius: 5px;
+}
+
+.inputfield-normal {
+  outline: none;
+}
+
+.inputfield-invalid:invalid {
+  outline-color: red;
+}
+
+.inputfield-invalid:valid {
+  outline-color: green;
+}
