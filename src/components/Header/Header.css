@@ -11,8 +11,9 @@
 }
 
 .containerHeader .icon {
-  width: 60px;
-  border-radius: 10px;
+  width: 100px;
+  border-radius: 20px;
+  margin:10px;
 }
 
 .containerHeader .icon:hover {
