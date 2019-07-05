@@ -30,7 +30,7 @@ export default function Signup() {
         <InputField accept="image/*" className="inputField"  type="file" />
         <label htmlFor="password">Password</label>
         <InputField id="password" className="inputField" placeholder="Enter password" type="password" />
-        <Button hoverTitle="sign up" buttonLabel="sign " buttonClass="outline-success" buttonWidth="100px" />
+        <Button hoverTitle="sign up" buttonLabel="sign up " buttonClass="outline-success" buttonWidth="100px" />
         
       </form>
       </div>
