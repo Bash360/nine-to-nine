@@ -36,7 +36,7 @@ export default function Footer() {
       <div className="footer-right">
 
         <p className="footer-company-about">
-          <span>About the Nine to Nine</span>
+          <span>About Nine to Nine</span>
           Bridging the gap between service providers and people in need of their services by proximity, get the job done by the woman closest to your location, true definition of working remotely.
 				</p>
 
