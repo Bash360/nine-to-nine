@@ -21,17 +21,15 @@ export default function Header() {
 			<nav>
 				<ul>
 					<li className="primary outline-primary ">
-						<NavLink title="home" to="/" where="/home" text="Home" />
-					</li>
-					<li className="primary outline-primary ">
-						<NavLink title="services" where="/services" text="Services" />
+						<NavLink title="home"  where="/" text="Home" />
 					</li>
 					<li className="primary outline-primary ">
 						<NavLink title="sign up" where="/signup" text="Sign up" />
 					</li>
-					<li className="primary outline-primary">
-						<NavLink title="profile" to="/" where="/profile" text="profile" />
+					<li className="primary outline-primary ">
+						<NavLink title="services" where="/services" text="Services" />
 					</li>
+					
 				</ul>
 			</nav>
 		</header>

@@ -3,6 +3,7 @@
   justify-content: space-evenly;
   flex-wrap: nowrap;
   background-color: #00203FFF;
+  color: #ADEFD1FF;
 }
 
 .search {
@@ -10,10 +11,10 @@
   width: 700px;
 }
 
-.containerHeader .icon {
+.icon {
   width: 100px;
   border-radius: 20px;
-  margin:10px;
+  margin: 10px;
 }
 
 .containerHeader .icon:hover {
@@ -35,7 +36,6 @@ li {
 form {
   width: 20rem;
 }
-
 
 li.button {
   width: 60px;

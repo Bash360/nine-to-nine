@@ -1,5 +1,5 @@
 import React from 'react';
-import './LoginForm.css';
+import './Form.css';
 import NavLink from '../Link/NavLink.jsx';
 import Button from '../Button/index.jsx';
 import InputField from '../InputField/InputField.jsx';
@@ -8,10 +8,10 @@ export default function LoginForm() {
 		<div className="containerforlogin">
       <form className="containerLogin">
 				<h3>Log In</h3>
-				<label htmlFor="name">Email</label>
-				<InputField type="email" id="email" className="inputfield-invalid" placeholder="enter email"/>
+				<label htmlFor="email">Email</label>
+				<InputField id="email" type="email" className="inputfield-invalid" placeholder="enter email"/>
 				<label hmtlfor="password">Password</label>
-				<InputField type="password" className="inputfield-invalid" id="password" placeholder="enter password"/>
+				<InputField id="password" type="password" className="inputfield-invalid" placeholder="enter password"/>
 				<Button hoverTitle="sign in" buttonLabel="sign in" buttonClass="outline-success" buttonWidth="100px" />
         
         </form>
