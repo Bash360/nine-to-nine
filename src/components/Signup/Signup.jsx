@@ -3,17 +3,13 @@ import InputField from '../InputField/InputField.jsx';
 import Button from '../Button/index.jsx';
 
 export default function Signup() {
-	const [formDetails, setFormDetails] = useState({});
-	let { firstname, lastname, email, password, phone, gender } = formDetails;
+  const [formDetails, setFormDetails] = useState({});
+	let { firstname, lastname, email, password, phone,gender} = formDetails;
 
   const handleChange = function (event) {
-    console.log(event);
-    if (event.currentTarget.type === 'radio') {
+    
       setFormDetails({ [event.currentTarget.name]: event.currentTarget.value });
-      console.log(gender);
-    } else { 
-      setFormDetails({ [event.currentTarget.name]: event.currentTarget.value });
-    }
+    console.log(gender);
 	};
 	function handleSubmit(evt) {
 		evt.preventDefault();
@@ -60,11 +56,11 @@ export default function Signup() {
 					<label style={{ margin: '5px' }} htmlFor="male">
 						Male
 					</label>
-					<InputField onChange={handleChange} value="male" id="male" name="gender" type="radio" required />
+          <input checked={gender==="male"} onChange={handleChange} value="male" id="male" name="gender" type="radio" required />
 					<label style={{ margin: '5px' }} htmlFor="female">
 						Female
 					</label>
-					<InputField onChange={handleChange} value="female" id="female" name="gender" type="radio" required />
+					<input checked={gender==="female"} onChange={handleChange} value="female" id="female" name="gender" type="radio" required />
 				</div>
 				<label htmlFor="phone">Phone</label>
 				<InputField
