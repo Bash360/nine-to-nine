@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import InputField from '../InputField/InputField.jsx';
 import Button from '../Button/index.jsx';
+import axios from 'axios';
 
 export default function Signup() {
-  const [formDetails, setFormDetails] = useState({});
-	let { firstname, lastname, email, password, phone,gender} = formDetails;
+	const [formDetails, setFormDetails] = useState({});
+	let { firstname, lastname, email, password, phone, gender } = formDetails;
 
-  const handleChange = function (event) {
-    
-      setFormDetails({ [event.currentTarget.name]: event.currentTarget.value });
-    console.log(gender);
+	const handleChange = function(event) {
+		setFormDetails({ [event.currentTarget.name]: event.currentTarget.value });
 	};
 	function handleSubmit(evt) {
-		evt.preventDefault();
-	}
+    evt.preventDefault();
+    const user = {firstname, lastname, email, password, phone, gender}
+  }
+  const postToDB = () => { 
+    axios.post("http://localhost:3000/users");
+  }
 	return (
 		<div className="containerforlogin" style={{ height: '800px' }}>
 			<form onSubmit={handleSubmit} className="containerLogin">
@@ -56,11 +59,27 @@ export default function Signup() {
 					<label style={{ margin: '5px' }} htmlFor="male">
 						Male
 					</label>
-          <input checked={gender==="male"} onChange={handleChange} value="male" id="male" name="gender" type="radio" required />
+					<input
+						checked={gender === 'male'}
+						onChange={handleChange}
+						value="male"
+						id="male"
+						name="gender"
+						type="radio"
+						required
+					/>
 					<label style={{ margin: '5px' }} htmlFor="female">
 						Female
 					</label>
-					<input checked={gender==="female"} onChange={handleChange} value="female" id="female" name="gender" type="radio" required />
+					<input
+						checked={gender === 'female'}
+						onChange={handleChange}
+						value="female"
+						id="female"
+						name="gender"
+						type="radio"
+						required
+					/>
 				</div>
 				<label htmlFor="phone">Phone</label>
 				<InputField
