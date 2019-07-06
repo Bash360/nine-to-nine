@@ -1,13 +1,9 @@
-import React, { useState,useContext,useEffect} from 'react';
+import React from 'react';
 import './InputField.css';
-export default function InputField({ id, name, className, placeholder, type, pattern, accept, value, onChange }) { 
-  let []=useState();
-  function handleChange() { 
-
-  }
+export default function InputField({ id, name, className, placeholder, type, pattern, accept, change}) { 
   return (
     <React.Fragment>
-      <input accept={accept} value={value} onChange={onChange} required id={id} name={name} className={className} type={type} placeholder={placeholder} pattern={pattern}/>
+      <input accept={accept}   onChange={change} required id={id} name={name} className={className} type={type} placeholder={placeholder} pattern={pattern} />
         </React.Fragment>
   );
 }
