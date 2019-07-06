@@ -1,27 +1,52 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import InputField from '../InputField/InputField.jsx';
 import Button from '../Button/index.jsx';
 import axios from 'axios';
+import generateUserID from '../../generate-randomID.js';
 
 export default function Signup() {
 	const [formDetails, setFormDetails] = useState({});
-	let { firstname, lastname, email, password, retypedPassword, phone, gender } = formDetails;
+
+	let { firstname, lastname, email, password, retypedPassword, phone, gender, image } = formDetails;
 	const handleChange = function(event) {
 		if (event.target.checked) {
-			console.log(event);
-			setFormDetails({...formDetails, [event.target.name]: event.target.value });
+			setFormDetails({ ...formDetails, [event.target.name]: event.target.value });
+		} else if (event.target.files) {
+			let formdata = new FormData();
+			formdata.append("file",event.target.files[0]);
+			let res = axios.post(
+				"/upload", formdata, {
+					headers: { "content-type":"multipart/form-data"}
+				}
+			)
+
+			console.log(res);
+		} else {
+			setFormDetails({ ...formDetails, [event.target.name]: event.target.value });
 		}
-		setFormDetails({ ...formDetails, [event.target.name]: event.target.value });
-		
 	};
 
 	function handleSubmit(evt) {
 		evt.preventDefault();
-		const user = formDetails;
-		postToDB(user);
+
+		const user = {
+			id: generateUserID(),
+			firstname,
+			lastname,
+			email,
+			password,
+			phone,
+			gender
+		};
+
+		// postToDB(user);
 	}
 	const postToDB = user => {
-		axios.post('http://localhost:3000/users/', user);
+		try {
+			axios.post('http://localhost:3000/users/', user);
+		} catch (err) {
+			console.error(err);
+		}
 	};
 	return (
 		<div className="containerforlogin" style={{ height: '800px' }}>
@@ -98,17 +123,10 @@ export default function Signup() {
 					change={handleChange}
 					value={phone}
 				/>
-				<label htmlFor="image">Image</label>
-				<InputField
-					id="image"
-					name="image"
-					className="inputField"
-				accept="*/"
-					type="file"
-					pattern="\d{11}"
-					change={handleChange}
-					value={phone}
-				/>
+				<label htmlFor="image" style={{ borderBottom: '5px' }}>
+					Select image
+				</label>
+				<InputField change={handleChange} accept="image/*" name="image" className="inputField" type="file" />
 
 				<label htmlFor="password">Password</label>
 				<InputField
