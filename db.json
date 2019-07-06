@@ -1,19 +1,13 @@
 {
-  "posts": [
+  "users": [
     {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
+      "firstname": "bsasahshsa",
+      "gender": "male",
+      "password": "sababsasasahsahsahshasa",
+      "phone": "08182988304",
+      "lastname": "bashir",
+      "email": "beejayphil@gmail.com",
+      "id": 1
     }
-  ],
-  "comments": [
-    {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
-    }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
+  ]
 }

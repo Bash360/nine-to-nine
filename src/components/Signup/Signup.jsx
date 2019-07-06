@@ -1,22 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState,useEffect } from 'react';
 import InputField from '../InputField/InputField.jsx';
 import Button from '../Button/index.jsx';
 import axios from 'axios';
 
 export default function Signup() {
 	const [formDetails, setFormDetails] = useState({});
-	let { firstname, lastname, email, password, phone, gender } = formDetails;
-
+	let { firstname, lastname, email, password, retypedPassword, phone, gender } = formDetails;
 	const handleChange = function(event) {
-		setFormDetails({ [event.currentTarget.name]: event.currentTarget.value });
+		if (event.target.checked) {
+			console.log(event);
+			setFormDetails({...formDetails, [event.target.name]: event.target.value });
+		}
+		setFormDetails({ ...formDetails, [event.target.name]: event.target.value });
+		
 	};
+
 	function handleSubmit(evt) {
-    evt.preventDefault();
-    const user = {firstname, lastname, email, password, phone, gender}
-  }
-  const postToDB = () => { 
-    axios.post("http://localhost:3000/users");
-  }
+		evt.preventDefault();
+		const user = formDetails;
+		postToDB(user);
+	}
+	const postToDB = user => {
+		axios.post('http://localhost:3000/users/', user);
+	};
 	return (
 		<div className="containerforlogin" style={{ height: '800px' }}>
 			<form onSubmit={handleSubmit} className="containerLogin">
@@ -92,15 +98,34 @@ export default function Signup() {
 					change={handleChange}
 					value={phone}
 				/>
+				<label htmlFor="image">Image</label>
+				<InputField
+					id="image"
+					name="image"
+					className="inputField"
+				accept="*/"
+					type="file"
+					pattern="\d{11}"
+					change={handleChange}
+					value={phone}
+				/>
 
-				<label htmlFor="image">image</label>
-				<InputField accept="image/*" className="inputField" type="file" />
 				<label htmlFor="password">Password</label>
 				<InputField
 					value={password}
 					change={handleChange}
 					name="password"
 					id="password"
+					className="inputField"
+					placeholder="Enter password"
+					type="password"
+				/>
+				<label htmlFor="retypedPassword">Retype Password</label>
+				<InputField
+					value={retypedPassword}
+					change={handleChange}
+					name="retypedPassword"
+					id="retypedPassword"
 					className="inputField"
 					placeholder="Enter password"
 					type="password"
