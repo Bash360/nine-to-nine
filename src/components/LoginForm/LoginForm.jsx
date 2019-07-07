@@ -1,6 +1,6 @@
 import React, { useState} from 'react';
 import './Form.css';
-import NavLink from '../Link/NavLink.jsx';
+import Link from '../Link/NavLink.jsx';
 import Button from '../Button/index.jsx';
 import InputField from '../InputField/InputField.jsx';
 import axios from 'axios';
@@ -30,7 +30,7 @@ export default function LoginForm() {
         
         </form>
         <p className="noaccount">
-				Don't have an account? signup here <span style={{ borderRadius: "5px", width: "100px", margin: "auto", textAlign: "center", padding: "5px" }} className="primary outline-primary"><NavLink title="sign up" size="100px"  where="/signup" text="sign up"></NavLink></span>
+				Don't have an account? signup here <span style={{ borderRadius: "5px", width: "100px", margin: "auto", textAlign: "center", padding: "5px" }} className="primary outline-primary"><Link title="sign up" size="100px"  where="/signup" text="sign up"></Link></span>
         </p>
       
 		</div>

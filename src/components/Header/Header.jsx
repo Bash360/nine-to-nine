@@ -1,7 +1,8 @@
 import React, { useState} from 'react';
 import './Header.css';
-import NavLink from '../Link/NavLink.jsx';
+import Link from '../Link/NavLink.jsx';
 import InputField from '../InputField/InputField.jsx';
+import axios from 'axios';
 import logo from './logo.jpg';
 import Button from '../Button';
 
@@ -10,6 +11,12 @@ export default function Header() {
 
 	const handleChange = function(event) {
 		setSearch(event.target.value);
+	};
+	const handle=function(query){
+		try{
+axios.get(`localhost:3000/services?jobtitle=${query}`);
+		}catch(err){console.error(err);}
+
 	};
 	function handleSubmit(evt) { 
 		evt.preventDefault();
@@ -31,17 +38,17 @@ export default function Header() {
 			<nav>
 				<ul>
 					<li className="primary outline-primary ">
-						<NavLink title="home"  where="/" text="Home" />
+						<Link title="home"  where="/" text="Home" />
 					</li>
 					<li className="primary outline-primary ">
-						<NavLink title="login" where="/login" text="sign in" />
+						<Link title="login" where="/login" text="Sign in" />
 					</li>
 
 					<li className="primary outline-primary ">
-						<NavLink title="sign up" where="/signup" text="Sign up" />
+						<Link title="sign up" where="/signup" text="Sign up" />
 					</li>
 					<li className="primary outline-primary ">
-						<NavLink title="services" where="/services" text="Services" />
+						<Link title="services" where="/services" text="Services" />
 					</li>
 					
 				</ul>

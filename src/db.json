@@ -1,0 +1,58 @@
+{
+  "users": [
+    {
+      "id": "4482639",
+      "firstname": "mark",
+      "lastname": "bashir",
+      "email": "beejayphil@gmail.com",
+      "password": "bash",
+      "phone": "81829883044",
+      "gender": "male"
+    },
+    {
+      "id": "4594832",
+      "firstname": "mark",
+      "lastname": "mark",
+      "email": "petakin05@gmail.com",
+      "password": "qrqr",
+      "phone": "81829883042",
+      "gender": "male"
+    },
+    {
+      "id": "6095723",
+      "firstname": "Oluwatobi Samuel",
+      "lastname": "bashir",
+      "email": "beejayphil@gmail.com",
+      "password": "bash",
+      "phone": "81829883042",
+      "gender": "male"
+    },
+    {
+      "id": "1708663",
+      "firstname": "mark",
+      "lastname": "bashir",
+      "email": "petakin05@gmail.com",
+      "password": "gdgd",
+      "phone": "81829883042",
+      "gender": "male"
+    },
+    {
+      "id": "8788347",
+      "firstname": "nnncnc",
+      "lastname": " cxncx",
+      "email": "beejayphil@mail.com",
+      "password": "dfdf",
+      "phone": "81829883043",
+      "gender": "male"
+    },
+    {
+      "id": "9671682",
+      "firstname": "djedjjkdekjd",
+      "lastname": "jdejkdejkde",
+      "email": "beejayphil@mail.com",
+      "password": "bash",
+      "phone": "81829883043",
+      "gender": "male"
+    }
+  ]
+}

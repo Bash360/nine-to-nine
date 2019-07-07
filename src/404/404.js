@@ -1,6 +1,5 @@
 import React from 'react';
 import './404.css';
-import NavLink from '../components/Link/NavLink';
 import errorImage from './404.gif';
 export default function FourOFour() {
   const handleClick=()=>{

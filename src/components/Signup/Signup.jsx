@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import InputField from '../InputField/InputField.jsx';
+import {Redirect} from "react-router-dom";
 import Button from '../Button/index.jsx';
+import setLocalStorage from '../../setLocalStorage.js';
 import axios from 'axios';
 import './Signup.css';
 import generateUserID from '../../generate-randomID.js';
 
 export default function Signup() {
 	const [formDetails, setFormDetails] = useState({ image: null });
-
+  const [status,setStatus]=useState(null);
 	let { firstname, lastname, email, password, retypedPassword, phone, gender, image } = formDetails;
 	const handleChange = function (event) {
 		if (event.target.checked) {
@@ -35,15 +37,18 @@ export default function Signup() {
 				email,
 				password,
 				phone,
-				gender,
-				image
+				gender
 			};
+			setLocalStorage("email",email);
 			
 			postToDB(user);
 		}
-		const postToDB = user => {
+		const postToDB = async user => {
 			try {
-				axios.post('http://localhost:3000/users/', user);
+			let post=await	axios.post('http://localhost:3000/users/', user);
+			setStatus(post.statusText);
+				
+
 			} catch (err) {
 				console.error(err);
 			}
@@ -126,7 +131,7 @@ export default function Signup() {
 					<label htmlFor="image" style={{ borderBottom: '0px' }}>
 						Choose a picture:
 				</label>
-					<InputField change={handleChange} accept="image/*" name="image" className="inputField" type="file" />
+					<InputField  change={handleChange} accept="image/*" name="image" className="inputField" type="file" />
 					{image !== null && <img id="thumbnail" src={image} className="thumbnail" alt="" />}
 
 					<label htmlFor="password">Password</label>
@@ -137,7 +142,7 @@ export default function Signup() {
 						name="password"
 						id="password"
 						className="inputField"
-						placeholder="Enter password four characters atleast"
+						placeholder="Enter password 4 characters atleast"
 						type="password"
 					/>
 					<label htmlFor="retypedPassword">Retype Password</label>
@@ -148,13 +153,15 @@ export default function Signup() {
 						name="retypedPassword"
 						id="retypedPassword"
 						className="inputField"
-						placeholder="Enter password four characters atleast"
+						placeholder="Enter password 4 characters atleast"
 						type="password"
 						pattern={`${password}`}
 					/>
 					{password !== retypedPassword  && <p style={{ color: "red", marginBottom: "2px" }}>passwords must match</p>}
 					<Button hoverTitle="sign up" buttonLabel="sign up " buttonClass="outline-success" buttonWidth="100px" />
+					
 				</form>
+				{status==="Created"?<Redirect to="/dashboard" />:""}
 			</div>
 		);
 	}
