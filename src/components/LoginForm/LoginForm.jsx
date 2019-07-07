@@ -3,17 +3,20 @@ import './Form.css';
 import NavLink from '../Link/NavLink.jsx';
 import Button from '../Button/index.jsx';
 import InputField from '../InputField/InputField.jsx';
+import axios from 'axios';
 export default function LoginForm() {
 		const [formDetails, setFormDetails] = useState({});
 	function handleSubmit(evt) { 
 		evt.preventDefault();
 	}
 
-	
+	const getProfile = async (user) => { 
+	let profile = await 	axios.get("http://localhost:3000/");
+	}
 	let { email, password } = formDetails;
 
 	const handleChange = function(event) {
-		setFormDetails({ [event.target.name]: event.target.value });
+		setFormDetails({...formDetails, [event.target.name]: event.target.value });
 	};
 	return (
 		<div className="containerforlogin">
