@@ -12,7 +12,8 @@ function App() {
       <Header />
       <Route path="/" exact component={Home} />
       <Route path="/login" exact component={LoginForm} />
-      <Route path="/signup" exact component={Signup} />
+       <Route path="/signup" exact component={Signup} />
+      
       
       <Footer/>  
     </div>

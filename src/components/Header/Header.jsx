@@ -34,7 +34,7 @@ export default function Header() {
 						<NavLink title="home"  where="/" text="Home" />
 					</li>
 					<li className="primary outline-primary ">
-						<NavLink title="login" where="/login" text="log in" />
+						<NavLink title="login" where="/login" text="sign in" />
 					</li>
 
 					<li className="primary outline-primary ">
