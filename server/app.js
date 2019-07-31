@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 const usersRouter = require('./routes/users');
+require('../server/src/database/database.js'); 
+
 
 
 
@@ -38,7 +40,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-const Port = 3434;
+const Port = 3000;
 app.listen(Port, () => { console.log(`listening on port ${Port}`)})
 
 module.exports = app;
