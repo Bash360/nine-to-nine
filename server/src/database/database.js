@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 serviceSchema = new mongoose.Schema({
   timeCreated: {
     type: Date,
@@ -8,11 +9,12 @@ serviceSchema = new mongoose.Schema({
   userName: { type: String, maxlength: 100, required: true, trim: true },
   category: {
     type: String,
+    enum: ['all industries', 'advertising marketing', 'agriculture fishing and forestry', 'tourism travel', 'technology', 'retail, fashion', 'real estate', 'ngo', 'manufacturing', 'logistics transportation', 'law enforcement security', 'law', 'internet and telecommunications', 'advertising marketing', 'mining, oil and metals', 'healthcare', 'entertainment', 'education', 'digital media  communications', 'construction', 'banking, finance and insurance', 'automotive and aviation','art and design'],
     maxlenght: 50,
     minlength: 20,
     required: true,
     trim: true,
-    default: 'all category'
+    default: 'all industries'
   },
   email: {
     type: String,
@@ -75,11 +77,19 @@ try {
 }
 
  
-const User = mongoose.model('user', userSchema)
+const User = mongoose.model('user', userSchema);
+
 function createUser(firstName, lastName,password, phone, gender, email) {
   return new Promise(async (resolve, reject) => {
     try {
-      const user = new User({ firstName, lastName,password, phone, gender, email });
+      let hashedPassword;
+      bcrypt.hash(password, 10, (err, hash)=> { 
+        if (err) throw new Error(err.message);
+        hashedPassword = hash;
+       
+      });
+      const user = new User({ firstName, lastName,password:hashedPassword, phone, gender, email });
+      
       const result = await user.save();
       resolve({ userID:result._id });
     } catch (error) {
@@ -181,7 +191,7 @@ function createService(userName,email,role,serviceTitle,category,description,pub
       let result = await User.findOneAndUpdate({ email },
         {
           $set: {
-            services: [{ userName, email, role, serviceTitle, category, description, published, timeCreated}]
+            services: [{ userName, email, role, serviceTitle, category, description, published}]
           }
 
         }, {
@@ -191,13 +201,25 @@ function createService(userName,email,role,serviceTitle,category,description,pub
       if (result === null) { 
         throw new Error('can not find user');
       }
-      result();
+      resolve(result);
       
     } catch (error) {
       reject(error.message);
     }
    });
 }
+function getAllService() { 
+  return new Promise((resolve, reject) => {
+    try {
+      
+    } catch (error) {
+      reject();
+    }
+   });
+}
+function publishService() {
 
-  //  let user = getAllUsers();
-  // user.then((data) => { console.log(data) }).catch((data) => { console.log(data) });
+ }
+
+let user = createUser('jkay', 'bash', 'bashnababa', '07035609475', 'male', 'bash@gmail.com');
+   user.then((data) => { console.log(data) }).catch((data) => { console.log(data) });
