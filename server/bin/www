@@ -8,17 +8,30 @@ const app = require('../app');
 const debug = require('debug')('server:server');
 const http = require('http');
 const mongoose = require('mongoose');
-   
+require('dotenv/config');
 
+let connection;
+console.log(process.env.NODE_ENV);
+switch (process.env.NODE_ENV) {
+	case 'production':
+		connection = process.env.MONGO_PROD;
+		break;
+	case 'development':
+		connection = process.env.MONGO_DEV;
+		break;
+	default:
+		throw new Error('no connection');
+		break;
+}
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
+mongoose.connect(connection, {
+	useNewUrlParser: true,
+	useCreateIndex: true,
+	useFindAndModify: false
 });
 mongoose.connection.on('connected', mongodbConnected);
 mongoose.connection.on('disconnected', mongodbDisconnected);
-mongoose.connection.on('error',mongodbError);
+mongoose.connection.on('error', mongodbError);
 /**
  * Get port from environment and store in Express.
  */
@@ -45,19 +58,19 @@ server.on('listening', onListening);
  */
 
 function normalizePort(val) {
-  const port = parseInt(val, 10);
+	const port = parseInt(val, 10);
 
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
+	if (isNaN(port)) {
+		// named pipe
+		return val;
+	}
 
-  if (port >= 0) {
-    // port number
-    return port;
-  }
+	if (port >= 0) {
+		// port number
+		return port;
+	}
 
-  return false;
+	return false;
 }
 
 /**
@@ -65,27 +78,25 @@ function normalizePort(val) {
  */
 
 function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
+	if (error.syscall !== 'listen') {
+		throw error;
+	}
 
-  const bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+	const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
+	// handle specific listen errors with friendly messages
+	switch (error.code) {
+		case 'EACCES':
+			console.error(bind + ' requires elevated privileges');
+			process.exit(1);
+			break;
+		case 'EADDRINUSE':
+			console.error(bind + ' is already in use');
+			process.exit(1);
+			break;
+		default:
+			throw error;
+	}
 }
 
 /**
@@ -93,20 +104,17 @@ function onError(error) {
  */
 
 function onListening() {
-  const addr = server.address();
-  const bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+	const addr = server.address();
+	const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+	debug('Listening on ' + bind);
 }
-function mongodbConnected() { 
-  console.log('connected to mongodb successfully');
+function mongodbConnected() {
+	console.log('connected to mongodb successfully');
 }
-function mongodbDisconnected() { 
-  console.log('disconnected from database');
+function mongodbDisconnected() {
+	console.log('disconnected from database');
 }
-function mongodbError(error) { 
-  console.error('Mongodb Error', error);
-  process.exit(1);
+function mongodbError(error) {
+	console.error('Mongodb Error', error);
+	process.exit(1);
 }
-

@@ -4,7 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
-const graphqlHTTP = 'express-graphql';
+const graphQLHTTP = 'express-graphql';
 
 
 
@@ -23,7 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // app.use('/users', usersRouter);
-// app.use('/graphql', graphqlHTTP({graqhiql:true}))
+// app.use('/graphql', graphQLHTTP({graqhiql:true}))
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
