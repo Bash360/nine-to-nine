@@ -2,7 +2,7 @@ const User = require('../model/user');
 const uuid = require('uuid/v4');
 
 /**
- * @description controller to create user
+ * @description function to create user
  * @author "mark bashir"
  * @date 2019-08-08
  * @param {string} firstName
@@ -11,7 +11,7 @@ const uuid = require('uuid/v4');
  * @param {string} phone
  * @param {string} gender
  * @param {string} email
- * @returns user details or string
+ * @returns user details or user not found if ID wrong
  */
 async function createUser(firstName, lastName, password, phone, gender, email) {
   const id = uuid();
@@ -28,26 +28,34 @@ async function createUser(firstName, lastName, password, phone, gender, email) {
   if (result) return result;
   return 'mail already used';
 }
-function getUser(id) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const user = await User.findOne({ id }).select({
-        firstName: 1,
-        lastName: 1,
-        gender: 1,
-        email: 1,
-        phone: 1,
-        imageUrl: 1,
-        services: 1,
-      });
-      if (user === null) {
-        throw new Error('account not found');
-      }
-      resolve(user);
-    } catch (error) {
-      reject(error);
-    }
+/**
+ * @description function to get user by id
+ * @author "mark bashir"
+ * @date 2019-08-08
+ * @param {string} id
+ * @returns user details or user not found if ID wrong
+ */
+/**
+ * @description get user by ID
+ * @author "mark bashir"
+ * @date 2019-08-08
+ * @param {string} id
+ * @returns user details or user not found if ID wrong
+ */
+async function getUser(id) {
+  const result = await User.findOne({ id }).select({
+    firstName: 1,
+    lastName: 1,
+    gender: 1,
+    email: 1,
+    phone: 1,
+    imageUrl: 1,
+    services: 1,
   });
+  if (!result) {
+    return 'account not found';
+  }
+  return result;
 }
 function updateUser(mail, password, details) {
   return new Promise(async (resolve, reject) => {
