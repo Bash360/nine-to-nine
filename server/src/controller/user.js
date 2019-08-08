@@ -28,13 +28,7 @@ async function createUser(firstName, lastName, password, phone, gender, email) {
   if (result) return result;
   return 'mail already used';
 }
-/**
- * @description function to get user by id
- * @author "mark bashir"
- * @date 2019-08-08
- * @param {string} id
- * @returns user details or user not found if ID wrong
- */
+
 /**
  * @description get user by ID
  * @author "mark bashir"
@@ -57,6 +51,7 @@ async function getUser(id) {
   }
   return result;
 }
+
 function updateUser(mail, password, details) {
   return new Promise(async (resolve, reject) => {
     try {
