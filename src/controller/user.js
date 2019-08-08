@@ -52,6 +52,15 @@ async function getUser(id) {
   return result;
 }
 
+/**
+ * @description
+ * @author "mark bashir"
+ * @date 2019-08-09
+ * @param {*} mail
+ * @param {*} password
+ * @param {*} details
+ * @returns
+ */
 function updateUser(mail, password, details) {
   return new Promise(async (resolve, reject) => {
     try {
