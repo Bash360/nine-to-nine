@@ -25,8 +25,8 @@ async function createUser(firstName, lastName, password, phone, gender, email) {
     email,
   });
   const result = await user.save();
-  if (result) return result;
-  return 'mail already used';
+  if (!result) return 'mail already used';
+  return result;
 }
 
 /**
@@ -36,24 +36,24 @@ async function createUser(firstName, lastName, password, phone, gender, email) {
  * @param {string} id
  * @returns user details or user not found if ID wrong
  */
-async function getUser(id) {
-  const result = await User.findOne({ id }).select({
-    firstName: 1,
-    lastName: 1,
-    gender: 1,
-    email: 1,
-    phone: 1,
-    imageUrl: 1,
-    services: 1,
-  });
-  if (!result) {
-    return 'account not found';
-  }
-  return result;
-}
+// async function getUser(id) {
+//   const result = await User.findOne({ id }).select({
+//     firstName: 1,
+//     lastName: 1,
+//     gender: 1,
+//     email: 1,
+//     phone: 1,
+//     imageUrl: 1,
+//     services: 1,
+//   });
+//   if (!result) {
+//     return 'account not found';
+//   }
+//   return result;
+// }
 
 /**
- * @description
+ * @description function to update user details
  * @author "mark bashir"
  * @date 2019-08-09
  * @param {*} mail
@@ -61,83 +61,59 @@ async function getUser(id) {
  * @param {*} details
  * @returns
  */
-function updateUser(mail, password, details) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const result = await User.findOneAndUpdate(
-        {
-          email: mail,
-          password,
-        },
-        {
-          $set: details,
-        },
-        { new: true },
-      );
-      if (result === null) {
-        throw new Error('incorrect details');
-      }
+async function updateUser(email, password, details) {
+  const result = await User.findOneAndUpdate(
+    {
+      email,
+      password,
+    },
+    {
+      $set: details,
+    },
+    { new: true },
+  );
+  if (!result) {
+    return 'incorrect details';
+  }
 
-      let { firstName, lastName, phone, gender, email } = result;
-      resolve({ firstName, lastName, phone, gender, email });
-    } catch (error) {
-      reject(error.message);
-    }
-  });
+  let { firstName, lastName, phone, gender, email } = result;
+  return { firstName, lastName, phone, gender, email };
 }
-function getSingleUser(userID) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      user = await User.aggregate([
-        { $match: { _id: mongoose.Types.ObjectId(userID) } },
-        { $project: { password: 0, __v: 0, email: 0 } },
-        { $unwind: '$services' },
-        { $match: { 'services.published': true } },
-      ]);
-      resolve(user);
-    } catch (error) {
-      reject(error.message);
-    }
-  });
+
+async function getUser(id) {
+  const result = await User.aggregate([
+    { $match: { id: id } },
+    { $project: { password: 0, __v: 0, email: 0 } },
+    { $unwind: '$services' },
+    { $match: { 'services.published': true } },
+  ]);
+  if (!result) {
+    return 'no user found wrong id';
+  }
+  return result;
 }
-function updatePassword(email, password, newPassword) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const result = await User.findOneAndUpdate(
-        { email, password },
-        {
-          $set: {
-            password: newPassword,
-          },
-        },
-      );
-      if (result === null) {
-        throw new Error('incorrect details');
-      }
-      resolve('password updated');
-    } catch (error) {
-      reject(error.message);
-    }
-  });
+
+async function updatePassword(email, password, newPassword) {
+  const result = await User.findOneAndUpdate(
+    { email, password },
+    {
+      $set: {
+        password: newPassword,
+      },
+    },
+  );
+  if (!result) return 'incorrect details';
+
+  return 'password updated';
 }
-function getAllUsers() {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const users = await User.find().select();
-      if (users.length === 0) {
-        throw new Error('no users');
-      }
-      user = User.aggregate([
-        { $sort: { firstName: 1, lastName: 1 } },
-        { $project: { services: 0, password: 0, __v: 0 } },
-      ]);
-      resolve(user);
-    } catch (error) {
-      reject(error);
-    }
-  });
+async function getAllUsers() {
+  users = await User.aggregate([
+    { $sort: { firstName: 1, lastName: 1 } },
+    { $project: { 'services.published': true, password: 0, __v: 0 } },
+  ]);
+  return users;
 }
-function createService(
+async function createService(
   email,
   role,
   serviceTitle,
