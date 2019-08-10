@@ -147,53 +147,44 @@ async function getAllUsers() {
   return result;
 }
 async function createService(
-  email,
+  id,
   role,
   serviceTitle,
   category,
   description,
   published = false,
 ) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      let result = await User.findOne({ email });
-      if (result === null) throw new Error('user not found');
+  let result = await User.findOne({ id });
+  if (!result) return 'user not found';
 
-      let { services, firstName, lastName } = result;
+  let { services, firstName, lastName } = result;
 
-      if (services.length >= 5) {
-        throw new Error('can not have more than 5 services');
-      } else {
-        services.push({
-          userName: `${firstName} ${lastName}`,
-          role,
-          serviceTitle,
-          category,
-          description,
-          published,
-        });
-        user = await result.save();
-        resolve(user.services);
-      }
-    } catch (error) {
-      reject(error.message);
-    }
-  });
+  if (services.length >= 5) {
+    return 'can not have more than 5 services';
+  } else {
+    services.push({
+      userName: `${firstName} ${lastName}`,
+      serviceID: uuid(),
+      role,
+      serviceTitle,
+      category,
+      description,
+      published,
+    });
+    user = await result.save();
+
+    return user.services;
+  }
 }
-function getAllServices() {
-  return new Promise(async (resolve, reject) => {
-    try {
-      result = await User.aggregate([
-        { $unwind: '$services' },
-        { $project: { services: 1, _id: 0 } },
-        { $match: { 'services.published': true } },
-      ]);
 
-      resolve(result);
-    } catch (error) {
-      reject(error.message);
-    }
-  });
+async function getAllServices() {
+  let services = await User.aggregate([
+    { $unwind: '$services' },
+    { $project: { services: 1, _id: 0 } },
+    { $match: { 'services.published': true } },
+  ]);
+  let result = services.length === 0 ? 'no service' : services;
+  return result;
 }
 function publishService(email, serviceID) {
   return new Promise(async (resolve, reject) => {
@@ -227,4 +218,5 @@ module.exports = {
   updateUser,
   updatePassword,
   createService,
+  getAllServices,
 };

@@ -1,5 +1,11 @@
 const { connectDatabase, disconnectDatabase } = require('../test-setup/setup');
-const { createUser, getUser, getAllUsers } = require('../src/controller/user');
+const {
+  createUser,
+  getUser,
+  getAllUsers,
+  createService,
+  getAllServices,
+} = require('../src/controller/user');
 describe('test for user controller', () => {
   const userDetails = {
     firstName: 'mark',
@@ -10,7 +16,7 @@ describe('test for user controller', () => {
     email: 'stolidp@gmail.com',
   };
   let userID;
-  const wrondID = '212232';
+  const wrongID = '212232';
 
   beforeAll(async () => {
     await connectDatabase();
@@ -38,7 +44,6 @@ describe('test for user controller', () => {
   });
   test('should return  user', async () => {
     let result = await getUser(userID);
-    console.log(result);
     expect(result).toMatchObject({
       id: expect.any(String),
       firstName: expect.any(String),
@@ -51,7 +56,7 @@ describe('test for user controller', () => {
     });
   });
   test('should return user not found', async () => {
-    let result = await getUser(wrondID);
+    let result = await getUser(wrongID);
     expect(result).toMatch('no user found');
   });
   test('should return all users', async () => {
@@ -69,5 +74,31 @@ describe('test for user controller', () => {
         },
       ]),
     );
+  });
+  test('should return service created', async () => {
+    let result = await createService(
+      userID,
+      'software engineer',
+      'IT services',
+      'all industries',
+      'provide IT solutions to IT firms',
+      true,
+    );
+    expect(result).toHaveLength(1);
+  });
+  test('should return service created', async () => {
+    let result = await createService(
+      wrongID,
+      'software engineer',
+      'IT services',
+      'all industries',
+      'provide IT solutions to IT firms',
+    );
+
+    expect(result).toMatch('user not found');
+  });
+  test('should return all services', async () => {
+    let result = await getAllServices();
+    expect(result).toHaveLength(1);
   });
 });
