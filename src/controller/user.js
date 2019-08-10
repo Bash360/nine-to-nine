@@ -1,5 +1,6 @@
 const User = require('../model/user');
 const uuid = require('uuid/v4');
+const bcrypt = require('bcrypt');
 
 /**
  * @description function to create user
@@ -13,44 +14,42 @@ const uuid = require('uuid/v4');
  * @param {string} email
  * @returns user details or user not found if ID wrong
  */
-async function createUser(firstName, lastName, password, phone, gender, email) {
+async function createUser({
+  firstName,
+  lastName,
+  password,
+  phone,
+  gender,
+  email,
+  imageUrl = 'default.jpg',
+}) {
   const id = uuid();
+  const hash = await bcrypt.hash(password, 10);
   const user = new User({
     id,
     firstName,
     lastName,
-    password,
+    password: hash,
     phone,
     gender,
     email,
+    imageUrl,
   });
-  const result = await user.save();
-  if (!result) return 'mail already used';
-  return result;
+  try {
+    let result = await user.save();
+    return {
+      id: result.id,
+      firstName: result.firstName,
+      lastName: result.lastName,
+      phone: result.phone,
+      gender: result.phone,
+      email: result.email,
+      imageUrl: result.imageUrl,
+    };
+  } catch (error) {
+    return 'mail already used';
+  }
 }
-
-/**
- * @description get user by ID
- * @author "mark bashir"
- * @date 2019-08-08
- * @param {string} id
- * @returns user details or user not found if ID wrong
- */
-// async function getUser(id) {
-//   const result = await User.findOne({ id }).select({
-//     firstName: 1,
-//     lastName: 1,
-//     gender: 1,
-//     email: 1,
-//     phone: 1,
-//     imageUrl: 1,
-//     services: 1,
-//   });
-//   if (!result) {
-//     return 'account not found';
-//   }
-//   return result;
-// }
 
 /**
  * @description function to update user details
@@ -61,10 +60,10 @@ async function createUser(firstName, lastName, password, phone, gender, email) {
  * @param {*} details
  * @returns
  */
-async function updateUser(email, password, details) {
+async function updateUser(mail, password, details) {
   const result = await User.findOneAndUpdate(
     {
-      email,
+      email: mail,
       password,
     },
     {
@@ -82,15 +81,31 @@ async function updateUser(email, password, details) {
 
 async function getUser(id) {
   const result = await User.aggregate([
-    { $match: { id: id } },
-    { $project: { password: 0, __v: 0, email: 0 } },
-    { $unwind: '$services' },
-    { $match: { 'services.published': true } },
+    { $match: { id } },
+
+    {
+      $project: {
+        services: {
+          $filter: {
+            input: '$services',
+            cond: { $cmp: ['services.published', true] },
+          },
+        },
+        _id: 0,
+        firstName: 1,
+        lastName: 1,
+        gender: 1,
+        email: 1,
+        phone: 1,
+        imageUrl: 1,
+        id: 1,
+      },
+    },
   ]);
-  if (!result) {
-    return 'no user found wrong id';
+  if (result.length === 0) {
+    return 'no user found';
   }
-  return result;
+  return result[0];
 }
 
 async function updatePassword(email, password, newPassword) {
@@ -109,9 +124,27 @@ async function updatePassword(email, password, newPassword) {
 async function getAllUsers() {
   users = await User.aggregate([
     { $sort: { firstName: 1, lastName: 1 } },
-    { $project: { 'services.published': true, password: 0, __v: 0 } },
+    {
+      $project: {
+        services: {
+          $filter: {
+            input: '$services',
+            cond: { $cmp: ['services.published', true] },
+          },
+        },
+        _id: 0,
+        firstName: 1,
+        lastName: 1,
+        gender: 1,
+        email: 1,
+        phone: 1,
+        imageUrl: 1,
+        id: 1,
+      },
+    },
   ]);
-  return users;
+  result = users.length === 0 ? 'no user' : users;
+  return result;
 }
 async function createService(
   email,
@@ -187,14 +220,11 @@ function publishService(email, serviceID) {
   });
 }
 
-let user = getSingleUser('5d441be4ab9fe2b95c5f186b');
-//  let user= createService("chiderahopewell@gmail.com","technical writing","Software service","all industries","offer software development services",true)
-// module.exports={createUser,getUser,getAllUsers,updateUser,updatePassword,createService};
-// user=createUser('chidera','stephen','zinachi','08130302988','female','chiderahopewell@gmail.com');
-user
-  .then(data => {
-    console.log(data);
-  })
-  .catch(data => {
-    console.log(data);
-  });
+module.exports = {
+  createUser,
+  getUser,
+  getAllUsers,
+  updateUser,
+  updatePassword,
+  createService,
+};
