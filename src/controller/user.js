@@ -131,19 +131,6 @@ async function getUser(id) {
   return result[0];
 }
 
-async function updatePassword(email, password, newPassword) {
-  const result = await User.findOneAndUpdate(
-    { email, password },
-    {
-      $set: {
-        password: newPassword,
-      },
-    },
-  );
-  if (!result) return 'incorrect details';
-
-  return 'password updated';
-}
 async function getAllUsers() {
   users = await User.aggregate([
     { $sort: { firstName: 1, lastName: 1 } },
