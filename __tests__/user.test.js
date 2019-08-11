@@ -6,6 +6,8 @@ const {
   createService,
   getAllServices,
   publishService,
+  archiveService,
+  getService,
 } = require('../src/controller/user');
 describe('test for user controller', () => {
   const userDetails = {
@@ -86,10 +88,10 @@ describe('test for user controller', () => {
       'provide IT solutions to IT firms',
       true,
     );
-    serviceID = result.serviceID;
+    serviceID = result[0].serviceID;
     expect(result).toHaveLength(1);
   });
-  test('should return service created', async () => {
+  test('should return user not found', async () => {
     let result = await createService(
       wrongID,
       'software engineer',
@@ -106,6 +108,32 @@ describe('test for user controller', () => {
   });
   test('should publish service', async () => {
     let result = await publishService(userID, serviceID);
-    console.log(result);
+    expect(result).toMatchObject({
+      timeCreated: expect.any(Date),
+      category: expect.any(String),
+      published: expect.any(Boolean),
+      userName: expect.any(String),
+      serviceID: expect.any(String),
+      role: expect.any(String),
+      description: expect.any(String),
+      serviceTitle: expect.any(String),
+    });
+  });
+  test('should returns service ', async () => {
+    let result = await getService(serviceID);
+    expect(result).toMatchObject({
+      timeCreated: expect.any(Date),
+      category: expect.any(String),
+      published: expect.any(Boolean),
+      userName: expect.any(String),
+      serviceID: expect.any(String),
+      role: expect.any(String),
+      description: expect.any(String),
+      serviceTitle: expect.any(String),
+    });
+  });
+  test('should return service deleted successfully', async () => {
+    let result = await archiveService(userID, serviceID);
+    expect(result).toMatch('service deleted');
   });
 });

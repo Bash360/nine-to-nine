@@ -7,6 +7,10 @@ serviceSchema = new mongoose.Schema({
     default: Date.now(),
   },
   userName: { type: String, maxlength: 100, required: true, trim: true },
+  userID: {
+    type: String,
+    require: true,
+  },
   category: {
     type: String,
     enum: [
@@ -65,6 +69,10 @@ serviceSchema = new mongoose.Schema({
   published: {
     type: Boolean,
     enum: [true, false],
+    default: false,
+  },
+  archived: {
+    type: Boolean,
     default: false,
   },
 });

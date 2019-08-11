@@ -95,7 +95,10 @@ async function getUser(id) {
         services: {
           $filter: {
             input: '$services',
-            cond: { $cmp: ['services.published', true] },
+            cond: {
+              $cmp: ['services.published', true],
+              $cmp: ['services.archived', false],
+            },
           },
         },
         _id: 0,
@@ -136,7 +139,14 @@ async function getAllUsers() {
         services: {
           $filter: {
             input: '$services',
-            cond: { $cmp: ['services.published', true] },
+            cond: {
+              $and: [
+                {
+                  $cmp: ['services.published', true],
+                  $cmp: ['services.archived', false],
+                },
+              ],
+            },
           },
         },
         _id: 0,
@@ -170,6 +180,8 @@ async function createService(
     return 'can not have more than 5 services';
   } else {
     services.push({
+      userID: id,
+      ref: User.id,
       userName: `${firstName} ${lastName}`,
       serviceID: uuid(),
       role,
@@ -188,14 +200,103 @@ async function getAllServices() {
   let services = await User.aggregate([
     { $unwind: '$services' },
     { $project: { services: 1, _id: 0 } },
-    { $match: { 'services.published': true } },
+    {
+      $match: {
+        $and: [{ 'services.published': true, 'services.archived': false }],
+      },
+    },
   ]);
   let result = services.length === 0 ? 'no service' : services;
   return result;
 }
-async function publishService(id, serviceID) {
+async function publishService(id, service_ID) {
   let result = await User.findOne({ id });
   if (!result) return 'user not found';
+
+  let service = result.services.find(
+    service => service.serviceID === service_ID,
+  );
+  if (!service) return 'service not found';
+  service.published = true;
+  let serviceUpdate = await result.save();
+  let updatedService = serviceUpdate.services.find(
+    service => service.serviceID === service_ID,
+  );
+
+  let {
+    timeCreated,
+    category,
+    published,
+    userName,
+    serviceID,
+    role,
+    description,
+    serviceTitle,
+  } = updatedService;
+  return {
+    timeCreated,
+    category,
+    published,
+    userName,
+    serviceID,
+    role,
+    description,
+    serviceTitle,
+  };
+}
+async function archiveService(id, serviceID) {
+  let result = await User.findOne({ id });
+  if (!result) return 'user with id not found';
+  let service = result.services.find(
+    service => service.serviceID === serviceID,
+  );
+  if (!service) return 'service not found';
+  service.archived = true;
+  await result.save();
+
+  return 'service deleted';
+}
+async function getService(service_ID) {
+  let service = await User.aggregate([
+    { $unwind: '$services' },
+    { $project: { services: 1, _id: 0 } },
+    {
+      $match: {
+        $and: [
+          {
+            'services.published': true,
+            'services.archived': false,
+            'services.serviceID': service_ID,
+          },
+        ],
+      },
+    },
+  ]);
+  if (!service) {
+    return 'service not found';
+  }
+  let {
+    timeCreated,
+    category,
+    published,
+    userID,
+    userName,
+    serviceID,
+    role,
+    serviceTitle,
+    description,
+  } = service[0].services;
+  return {
+    timeCreated,
+    category,
+    published,
+    userID,
+    userName,
+    serviceID,
+    role,
+    serviceTitle,
+    description,
+  };
 }
 
 module.exports = {
@@ -207,4 +308,6 @@ module.exports = {
   createService,
   getAllServices,
   publishService,
+  archiveService,
+  getService,
 };
