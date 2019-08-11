@@ -298,16 +298,35 @@ async function getService(service_ID) {
     description,
   };
 }
+async function getUserByEmailAndPassword(mail, password) {
+  let result = await User.findOne({ email: mail }).select({ _id: 0, __v: 0 });
+
+  if (!result) return 'wrong email';
+  let match = await bcrypt.compare(password, result.password);
+  if (!match) return 'wrong password';
+  let services = result.services.filter(service => service.archived === false);
+  let { id, firstName, lastName, email, phone, gender, imageUrl } = result;
+  return {
+    id,
+    firstName,
+    lastName,
+    email,
+    phone,
+    gender,
+    imageUrl,
+    services: services,
+  };
+}
 
 module.exports = {
   createUser,
   getUser,
   getAllUsers,
   updateUser,
-  updatePassword,
   createService,
   getAllServices,
   publishService,
   archiveService,
   getService,
+  getUserByEmailAndPassword,
 };

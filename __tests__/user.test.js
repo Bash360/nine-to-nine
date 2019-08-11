@@ -9,6 +9,7 @@ const {
   archiveService,
   getService,
   updateUser,
+  getUserByEmailAndPassword,
 } = require('../src/controller/user');
 describe('test for user controller', () => {
   const userDetails = {
@@ -107,6 +108,25 @@ describe('test for user controller', () => {
     let result = await getAllServices();
     expect(result).toHaveLength(1);
   });
+  test('should return user', async () => {
+    let result = await getUserByEmailAndPassword(
+      userDetails.email,
+      userDetails.password,
+    );
+    expect(result).toHaveProperty('firstName');
+  });
+  test('should return wrong email', async () => {
+    let result = await getUserByEmailAndPassword(
+      'bash@gmail.com',
+      userDetails.password,
+    );
+    expect(result).toMatch('wrong email');
+  });
+  test('should return wrong email', async () => {
+    let result = await getUserByEmailAndPassword(userDetails.email, 'bash');
+    expect(result).toMatch('wrong password');
+  });
+
   test('should publish service', async () => {
     let result = await publishService(userID, serviceID);
     expect(result).toMatchObject({
