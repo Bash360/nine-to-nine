@@ -61,22 +61,35 @@ async function createUser({
  * @returns
  */
 async function updateUser(mail, password, details) {
+  let foundMail = await User.findOne({ email: mail });
+  if (!foundMail) return 'account not found';
+  let {
+    firstName = foundMail.firstName,
+    lastName = foundMail.lastName,
+    imageUrl = foundMail.imageUrl,
+    phone = foundMail.phone,
+  } = details;
+  let match = await bcrypt.compare(password, foundMail.password);
+  if (!match) return 'wrong password';
   const result = await User.findOneAndUpdate(
     {
       email: mail,
-      password,
     },
     {
-      $set: details,
+      $set: { firstName, lastName, phone, imageUrl },
     },
     { new: true },
   );
-  if (!result) {
-    return 'incorrect details';
-  }
 
-  let { firstName, lastName, phone, gender, email } = result;
-  return { firstName, lastName, phone, gender, email };
+  return {
+    id: result.id,
+    firstName: result.firstName,
+    lastName: result.lastName,
+    phone: result.phone,
+    gender: result.gender,
+    email: result.email,
+    imageUrl: result.imageUrl,
+  };
 }
 
 /**

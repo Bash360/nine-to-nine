@@ -8,6 +8,7 @@ const {
   publishService,
   archiveService,
   getService,
+  updateUser,
 } = require('../src/controller/user');
 describe('test for user controller', () => {
   const userDetails = {
@@ -135,5 +136,19 @@ describe('test for user controller', () => {
   test('should return service deleted successfully', async () => {
     let result = await archiveService(userID, serviceID);
     expect(result).toMatch('service deleted');
+  });
+  test('should return updated details', async () => {
+    let result = await updateUser(userDetails.email, userDetails.password, {
+      firstName: 'mark',
+    });
+    expect(result).toMatchObject({
+      id: expect.any(String),
+      firstName: expect.any(String),
+      lastName: expect.any(String),
+      phone: expect.any(String),
+      gender: expect.any(String),
+      email: expect.any(String),
+      imageUrl: expect.any(String),
+    });
   });
 });
