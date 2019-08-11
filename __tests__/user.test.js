@@ -5,6 +5,7 @@ const {
   getAllUsers,
   createService,
   getAllServices,
+  publishService,
 } = require('../src/controller/user');
 describe('test for user controller', () => {
   const userDetails = {
@@ -17,6 +18,7 @@ describe('test for user controller', () => {
   };
   let userID;
   const wrongID = '212232';
+  let serviceID;
 
   beforeAll(async () => {
     await connectDatabase();
@@ -84,6 +86,7 @@ describe('test for user controller', () => {
       'provide IT solutions to IT firms',
       true,
     );
+    serviceID = result.serviceID;
     expect(result).toHaveLength(1);
   });
   test('should return service created', async () => {
@@ -100,5 +103,9 @@ describe('test for user controller', () => {
   test('should return all services', async () => {
     let result = await getAllServices();
     expect(result).toHaveLength(1);
+  });
+  test('should publish service', async () => {
+    let result = await publishService(userID, serviceID);
+    console.log(result);
   });
 });

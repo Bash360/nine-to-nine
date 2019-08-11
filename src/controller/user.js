@@ -79,6 +79,13 @@ async function updateUser(mail, password, details) {
   return { firstName, lastName, phone, gender, email };
 }
 
+/**
+ * @description function to get user by id
+ * @author "mark bashir"
+ * @date 2019-08-10
+ * @param {string} id
+ * @returns user details if user exist
+ */
 async function getUser(id) {
   const result = await User.aggregate([
     { $match: { id } },
@@ -186,29 +193,9 @@ async function getAllServices() {
   let result = services.length === 0 ? 'no service' : services;
   return result;
 }
-function publishService(email, serviceID) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      // result = await User.findOne({email});
-      // if(result===null){
-      //   throw new Error('user not found');
-      // }
-      service = await User.aggregate([
-        { $unwind: '$services' },
-        { $project: { services: 1, _id: 0 } },
-        {
-          $match: {
-            'services.published': false,
-            'services._id': mongoose.Types.ObjectId(serviceID),
-          },
-        },
-      ]);
-      if (service.length === 0) throw new Error('service already published');
-      resolve(service);
-    } catch (error) {
-      reject(error.message);
-    }
-  });
+async function publishService(id, serviceID) {
+  let result = await User.findOne({ id });
+  if (!result) return 'user not found';
 }
 
 module.exports = {
@@ -219,4 +206,5 @@ module.exports = {
   updatePassword,
   createService,
   getAllServices,
+  publishService,
 };
