@@ -22,7 +22,7 @@ userRouter.get('/allusers', (req, res) => {
     });
 });
 userRouter.post(
-  '/create',
+  '/register',
   [checkUser, checkType, checkSize],
   (req, res, next) => {
     let {
@@ -46,16 +46,14 @@ userRouter.post(
       .then(user => {
         let token = user.token;
         res.header('x-auth-token', token);
-        res
-          .status(200)
-          .json({
-            id: user.id,
-            firstName: user.lastName,
-            phone: user.phone,
-            gender: user.gender,
-            email: user.email,
-            imageUrl: user.imageUrl,
-          });
+        res.status(200).json({
+          id: user.id,
+          firstName: user.lastName,
+          phone: user.phone,
+          gender: user.gender,
+          email: user.email,
+          imageUrl: user.imageUrl,
+        });
       })
       .catch(error => {
         return res.status(400).json(error.message);

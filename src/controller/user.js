@@ -305,7 +305,17 @@ async function getUserByEmailAndPassword(mail, password) {
   let match = await bcrypt.compare(password, result.password);
   if (!match) return 'wrong password';
   let services = result.services.filter(service => service.archived === false);
-  let { id, firstName, lastName, email, phone, gender, imageUrl } = result;
+  const token = result.generateAuthToken;
+  let {
+    id,
+    firstName,
+    lastName,
+    email,
+    phone,
+    gender,
+    imageUrl,
+    token,
+  } = result;
   return {
     id,
     firstName,
