@@ -35,20 +35,20 @@ async function createUser({
     email,
     imageUrl,
   });
-  try {
-    let result = await user.save();
-    return {
-      id: result.id,
-      firstName: result.firstName,
-      lastName: result.lastName,
-      phone: result.phone,
-      gender: result.phone,
-      email: result.email,
-      imageUrl: result.imageUrl,
-    };
-  } catch (error) {
-    return 'mail already used';
-  }
+  let result = await user.save();
+
+  const token = user.generateAuthToken();
+
+  return {
+    id: result.id,
+    firstName: result.firstName,
+    lastName: result.lastName,
+    phone: result.phone,
+    gender: result.phone,
+    email: result.email,
+    imageUrl: result.imageUrl,
+    token,
+  };
 }
 
 /**
@@ -160,7 +160,7 @@ async function getAllUsers() {
       },
     },
   ]);
-  result = users.length === 0 ? 'no user' : users;
+  result = users.length === 0 ? 'no users' : users;
   return result;
 }
 async function createService(

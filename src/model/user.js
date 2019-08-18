@@ -1,5 +1,8 @@
 const { model, Schema } = require('mongoose');
 const serviceSchema = require('./service-schema');
+const uniqueValidator = require('mongoose-unique-validator');
+require('dotenv/config');
+const jwt = require('jsonwebtoken');
 const userSchema = new Schema({
   id: { type: String, required: true },
   firstName: {
@@ -38,7 +41,18 @@ const userSchema = new Schema({
     trim: true,
   },
   password: { type: String, maxlenght: 30, min: 5, required: true, trim: true },
-  imageUrl: { type: String, maxlenght: 100, required: true, trim: true },
+  imageUrl: { type: String, maxlenght: 200, required: true, trim: true },
   services: { type: [serviceSchema] },
+});
+userSchema.methods.generateAuthToken = function() {
+  const token = jwt.sign(
+    { email: this.email, id: this.id },
+    process.env.SECRET,
+  );
+  return token;
+};
+uniqueValidator.type = ' ';
+userSchema.plugin(uniqueValidator, {
+  message: 'Error, {VALUE} is already a registered account',
 });
 module.exports = model('user', userSchema);

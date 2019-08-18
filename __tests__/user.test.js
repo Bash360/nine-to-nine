@@ -44,10 +44,7 @@ describe('test for user controller', () => {
       imageUrl: expect.any(String),
     });
   });
-  test('should return mail already used', async () => {
-    let result = await createUser({ ...userDetails });
-    expect(result).toMatch('mail already used');
-  });
+
   test('should return  user', async () => {
     let result = await getUser(userID);
     expect(result).toMatchObject({

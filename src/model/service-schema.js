@@ -38,7 +38,7 @@ serviceSchema = new mongoose.Schema({
       'automotive and aviation',
       'art and design',
     ],
-    maxlenght: 50,
+    maxlenght: 100,
     minlength: 10,
     required: true,
     trim: true,

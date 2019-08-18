@@ -19,4 +19,5 @@ async function disconnectDatabase() {
   mongoose.connection.close();
   console.log('connection closed');
 }
+
 module.exports = { connectDatabase, disconnectDatabase };

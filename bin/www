@@ -8,6 +8,7 @@ const app = require('../app');
 const debug = require('debug')('server:server');
 const http = require('http');
 const mongoose = require('mongoose');
+
 require('dotenv/config');
 
 let connection;
@@ -23,7 +24,10 @@ switch (process.env.NODE_ENV) {
 		throw new Error('no connection');
 		break;
 }
-
+if(!process.env.SECRET){
+	console.error('FATAL ERROR: environment variable SECRET not defined');
+	process.exit(1);
+}
 mongoose.connect(connection, {
 	useNewUrlParser: true,
 	useCreateIndex: true,
