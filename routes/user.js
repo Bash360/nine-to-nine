@@ -4,6 +4,8 @@ const {
   checkType,
   checkSize,
   checkUser,
+  checkLoginDetails,
+  checkUserID,
 } = require('../src/middleware/validate-routes/user');
 const checkAuth = require('../src/middleware/authenticate-routes/auth');
 
@@ -32,7 +34,7 @@ userRouter.post(
       password,
       phone,
       gender,
-      imageUrl,
+      imageUrl = 'default.jpg',
     } = req.body;
     createUser({
       firstName,
@@ -53,6 +55,17 @@ userRouter.post(
       });
   },
 );
+userRouter.post('/login', checkLoginDetails, (req, res, next) => {
+  const { email, password } = req.body;
+  getUserByEmailAndPassword(email, password)
+    .then(data => res.status(200).json(data))
+    .catch(error => res.status(400).json(error));
+});
 userRouter.put('/user', checkAuth, (req, res) => {});
-userRouter.get('/user/:id', checkAuth, (req, res) => {});
+userRouter.get('/', checkAuth, (req, res) => {
+  const { id } = req.userDetails;
+  getUser(id)
+    .then(data => res.status(200).json(data))
+    .catch(error => res.status(400).json(error));
+});
 module.exports = userRouter;

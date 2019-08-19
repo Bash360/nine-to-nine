@@ -39,6 +39,20 @@ const postSchema = {
   imageUrl: joi.string().optional(),
   photo: joi.any().optional(),
 };
+loginSchema = {
+  email: joi
+    .string()
+    .email()
+    .trim()
+    .lowercase()
+    .required(),
+  password: joi
+    .string()
+    .trim()
+    .min(6)
+    .max(50)
+    .required(),
+};
 const updateSchema = {
   firstName: joi
     .string()
@@ -150,17 +164,11 @@ const getServiceSchema = {
     .required()
     .lowercase(),
 };
-const getUserSchema = {
-  id: joi
-    .string()
-    .trim()
-    .required()
-    .lowercase(),
-};
+
 module.exports = {
   postSchema,
   serviceSchema,
-  searcSchema,
+  searchSchema,
   getServiceSchema,
-  getUserSchema,
+  loginSchema,
 };

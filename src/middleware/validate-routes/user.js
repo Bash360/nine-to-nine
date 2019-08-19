@@ -8,7 +8,7 @@ cloudinary.config({
 });
 
 const validate = require('../../validation/validate');
-const { postSchema } = require('../../validation/schema');
+const { postSchema, loginSchema } = require('../../validation/schema');
 function checkType(req, res, next) {
   if (req.files) {
     let file = req.files.photo;
@@ -50,4 +50,11 @@ function checkUser(req, res, next) {
   if (error) req.body.error = error;
   next();
 }
-module.exports = { checkType, checkSize, checkUser };
+function checkLoginDetails(req, res, next) {
+  const schema = loginSchema;
+  const error = validate(req.body, schema);
+  if (error) return res.status(400).json(error);
+  next();
+}
+
+module.exports = { checkType, checkSize, checkUser, checkLoginDetails };
