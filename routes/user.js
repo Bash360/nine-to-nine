@@ -58,7 +58,12 @@ userRouter.post(
 userRouter.post('/login', checkLoginDetails, (req, res, next) => {
   const { email, password } = req.body;
   getUserByEmailAndPassword(email, password)
-    .then(data => res.status(200).json(data))
+    .then(data =>
+      res
+        .header('x-auth-token', data.token)
+        .status(200)
+        .json(data),
+    )
     .catch(error => res.status(400).json(error));
 });
 userRouter.put('/user', checkAuth, (req, res) => {});

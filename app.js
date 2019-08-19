@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 const userRouter = require('./routes/user');
+const serviceRouter = require('./routes/service');
 const fs = require('fs');
 const app = express();
 const fileUpload = require('express-fileupload');
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use('/api/user', userRouter);
+app.use('/api/service', serviceRouter);
 const clientPath = path.join(__dirname, './', 'client/build');
 
 if (fs.existsSync(clientPath)) {
