@@ -1,5 +1,4 @@
 const User = require('../model/user');
-const uuid = require('uuid/v4');
 const bcrypt = require('bcrypt');
 
 /**
@@ -23,10 +22,8 @@ async function createUser({
   email,
   imageUrl = 'default.jpg',
 }) {
-  const id = uuid();
   const hash = await bcrypt.hash(password, 10);
   const user = new User({
-    id,
     firstName,
     lastName,
     password: hash,
