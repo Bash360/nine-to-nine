@@ -1,0 +1,76 @@
+{
+  "users": [
+    {
+      "id": "4567176",
+      "firstname": "bash",
+      "lastname": "bash",
+      "email": "beejayphil@gmail.com",
+      "password": "bash",
+      "phone": "81829883042",
+      "gender": "male"
+    },
+    {
+      "id": "9175103",
+      "firstname": "hhhhh",
+      "lastname": "hhjjj",
+      "email": "beejayphil@gmail.com",
+      "password": "bash",
+      "phone": "81829883048",
+      "gender": "male"
+    },
+    {
+      "id": "5957206",
+      "firstname": "mark",
+      "lastname": "Ohidoa",
+      "email": "beejayphil@mail.com",
+      "password": "bash",
+      "phone": "81829883043",
+      "gender": "male"
+    },
+    {
+      "id": "4181066",
+      "firstname": "Oluwatobi Samuel",
+      "lastname": "Ohidoa",
+      "email": "beejayphil@gmail.com",
+      "password": "bash",
+      "phone": "81829883043",
+      "gender": "female"
+    },
+    {
+      "id": "7108135",
+      "firstname": "mark",
+      "lastname": "bashir",
+      "email": "beejayphil@gmail.com",
+      "password": "bash",
+      "phone": "81829883049",
+      "gender": "male"
+    },
+    {
+      "id": "6465518",
+      "firstname": "bash",
+      "lastname": "bash",
+      "email": "beejayphil@gmail.com",
+      "password": "bash",
+      "phone": "81829883043",
+      "gender": "female"
+    },
+    {
+      "id": "752737",
+      "firstname": "bash",
+      "lastname": "bash",
+      "email": "beejayphil@gmail.com",
+      "password": "bash",
+      "phone": "81829883042",
+      "gender": "female"
+    },
+    {
+      "id": "2629962",
+      "firstname": "mark",
+      "lastname": "Ohidoa",
+      "email": "beejayphil@gmail.com",
+      "password": "bash",
+      "phone": "81829883042",
+      "gender": "male"
+    }
+  ]
+}

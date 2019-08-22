@@ -1,0 +1,123 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+const app = require('../app');
+const debug = require('debug')('server:server');
+const http = require('http');
+const mongoose = require('mongoose');
+
+require('dotenv/config');
+
+let connection;
+console.log(process.env.NODE_ENV);
+switch (process.env.NODE_ENV) {
+	case 'production':
+		connection = process.env.MONGO_PROD;
+		break;
+	case 'development':
+		connection = process.env.MONGO_DEV;
+		break;
+	default:
+		throw new Error('no connection');
+}
+if(!process.env.SECRET){
+	console.error('FATAL ERROR: environment variable SECRET not defined');
+	process.exit(1);
+}
+mongoose.connect(connection, {
+	useNewUrlParser: true,
+	useCreateIndex: true,
+	useFindAndModify: false
+});
+mongoose.connection.on('connected', mongodbConnected);
+mongoose.connection.on('disconnected', mongodbDisconnected);
+mongoose.connection.on('error', mongodbError);
+/**
+ * Get port from environment and store in Express.
+ */
+
+const port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+const server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+	const port = parseInt(val, 10);
+
+	if (isNaN(port)) {
+		// named pipe
+		return val;
+	}
+
+	if (port >= 0) {
+		// port number
+		return port;
+	}
+
+	return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+	if (error.syscall !== 'listen') {
+		throw error;
+	}
+
+	const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+
+	// handle specific listen errors with friendly messages
+	switch (error.code) {
+		case 'EACCES':
+			console.error(bind + ' requires elevated privileges');
+			process.exit(1);
+			break;
+		case 'EADDRINUSE':
+			console.error(bind + ' is already in use');
+			process.exit(1);
+			break;
+		default:
+			throw error;
+	}
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+	const addr = server.address();
+	const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+	debug('Listening on ' + bind);
+}
+function mongodbConnected() {
+	console.log('connected to mongodb successfully');
+}
+function mongodbDisconnected() {
+	console.log('disconnected from database');
+}
+function mongodbError(error) {
+	console.error('Mongodb Error', error);
+	process.exit(1);
+}
